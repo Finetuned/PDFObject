@@ -75,7 +75,12 @@
 
     //If either ActiveX support for "AcroPDF.PDF" or "PDF.PdfCtrl" are found, return true
     //Constructed as a method (not a prop) to avoid unneccesarry overhead -- will only be evaluated if needed
-    supportsPdfActiveX = function (){ return !!(createAXO("AcroPDF.PDF") || createAXO("PDF.PdfCtrl")); };
+    supportsPdfActiveX = function (nonDefaultPlugin){
+        if (nonDefaultPlugin){
+            return !!(createAXO(nonDefaultPlugin));
+        }
+         return !!(createAXO("AcroPDF.PDF") || createAXO("PDF.PdfCtrl"));
+     };
 
     //Determines whether PDF support is available
     supportsPDFs = (supportsPdfMimeType || (isIE() && supportsPdfActiveX()));
@@ -203,11 +208,17 @@
             targetNode = getTargetElement(targetSelector),
             fallbackHTML = "",
             pdfOpenFragment = "",
+            activeXName = (options.activeXName) ? options.activeXName : false,
             fallbackHTML_default = "<p>This browser does not support inline PDFs. Please download the PDF to view it: <a href='[url]'>Download PDF</a></p>";
 
         //If target element is specified but is not valid, exit without doing anything
         if(!targetNode){ return embedError("Target element cannot be determined"); }
 
+        // If an activeXName was passed in, re-run support:
+        if (activeXName) {
+            // re-run supports
+            supportsPDFs = (supportsPdfMimeType || (isIE() && supportsPdfActiveX(activeXName)));
+        }
 
         //page option overrides pdfOpenParams, if found
         if(page){
