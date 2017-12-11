@@ -76,7 +76,7 @@
     //If either ActiveX support for "AcroPDF.PDF" or "PDF.PdfCtrl" are found, return true
     //Constructed as a method (not a prop) to avoid unneccesarry overhead -- will only be evaluated if needed
     supportsPdfActiveX = function (nonDefaultPlugin){
-        if (nonDefaultPlugin){
+        if (typeof nonDefaultPlugin != "undefined"){
             return !!(createAXO(nonDefaultPlugin));
         }
          return !!(createAXO("AcroPDF.PDF") || createAXO("PDF.PdfCtrl"));
