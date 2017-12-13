@@ -48,7 +48,8 @@
         getTargetElement,
         generatePDFJSiframe,
         isIOS = (function (){ return (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())); })(),
-        generateEmbedElement;
+        generateEmbedElement,
+        isFileProtocol;
 
 
     /* ----------------------------------------------------
@@ -185,6 +186,11 @@
 
     };
 
+    isFileProtocol = function (url){
+        var protocol = url.substring(0,4);
+        return protocol === "file";
+    };
+    
     embed = function(url, targetSelector, options){
 
         //Ensure URL is available. If not, exit now.
