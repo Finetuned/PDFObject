@@ -180,8 +180,14 @@
         }
 
         targetNode.className += " pdfobject-container";
-        targetNode.innerHTML = "<embed " + id + " class='pdfobject' src='" + url + pdfOpenFragment + "' type='application/pdf' style='overflow: auto; " + style + "'/>";
+        if ( isFileProtocol(url) ){
+            elem = "iframe";
+            style= 'width="' + width + '"  height="' + height + '"';
+            targetNode.innerHTML = '<iframe ' + id + ' class="pdfobject" src="' + url + pdfOpenFragment + '"'  + style + ' ></iframe>';
 
+        } else {
+            targetNode.innerHTML = "<embed " + id + " class='pdfobject' src='" + url + pdfOpenFragment + "' type='application/pdf' style='overflow: auto; " + style + "'/>";
+        }
         return targetNode.getElementsByTagName(elem)[0];
 
     };
