@@ -171,7 +171,7 @@
 
     generateEmbedElement = function (targetNode, targetSelector, url, pdfOpenFragment, width, height, id){
 
-        var style = "";
+        var style = "", elem='embed';
 
         if(targetSelector && targetSelector !== document.body){
             style = "width: " + width + "; height: " + height + ";";
@@ -182,7 +182,7 @@
         targetNode.className += " pdfobject-container";
         targetNode.innerHTML = "<embed " + id + " class='pdfobject' src='" + url + pdfOpenFragment + "' type='application/pdf' style='overflow: auto; " + style + "'/>";
 
-        return targetNode.getElementsByTagName("embed")[0];
+        return targetNode.getElementsByTagName(elem)[0];
 
     };
 
@@ -190,7 +190,7 @@
         var protocol = url.substring(0,4);
         return protocol === "file";
     };
-    
+
     embed = function(url, targetSelector, options){
 
         //Ensure URL is available. If not, exit now.
